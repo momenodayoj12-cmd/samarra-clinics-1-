@@ -4,7 +4,7 @@
 export const doctorsList = [
     {
         id: 1,
-        name: "د. محمد أياد",
+        name: "د. مؤمن عدي",
         specialty: "طب وجراحة الفم والأسنان",
         degree: "ماجستير تجميل الأسنان وزراعتها",
         university: "جامعة بغداد",
