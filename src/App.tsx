@@ -2,92 +2,92 @@ import React from 'react';
 import { doctorsList } from './doctorsData';
 
 // ----------------------------------------------------
-// 1. مكون بطاقة الطبيب (بالحجم الجديد المناسب للهاتف)
+// 1. مكون بطاقة الطبيب (تصميم عالمي، نظيف، بدون تداخل)
 // ----------------------------------------------------
 const VIPDoctorCard = (doctor: any) => {
   return (
-    <div className="glass rounded-3xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 border border-white/50 relative">
+    <div className="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col relative group">
 
-      {/* قسم الصورة (أصغر ومناسب للهاتف) */}
-      <div className="relative h-40 md:h-56 w-full">
+      {/* 1. قسم الصورة (مساحة نظيفة وتدرج لوني خفيف) */}
+      <div className="relative h-48 w-full bg-gray-50">
         <img src={doctor.images[0]} alt={doctor.name} className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent" />
 
-        {/* شارات العروض والمجاني */}
-        <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
-          {doctor.isFree && (
-            <span className="bg-green-500/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-green-400">
-              ✨ خدمة مجانية
-            </span>
-          )}
-          {doctor.specialOffer && (
-            <span className="bg-medical-vip/90 backdrop-blur text-black text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-yellow-300">
-              🎁 {doctor.specialOffer}
-            </span>
-          )}
-        </div>
-
-        {/* التقييم والشكر */}
-        <div className="absolute top-3 left-3 flex gap-2">
-          <div className="bg-white/90 backdrop-blur px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
-            <span className="text-yellow-500 text-xs">⭐</span>
-            <span className="font-bold text-xs">{doctor.rating}</span>
+        {/* التقييم (أعلى اليمين - ناعم جداً) */}
+        <div className="absolute top-4 right-4">
+          <div className="bg-white/95 backdrop-blur px-3 py-1.5 rounded-2xl flex items-center gap-1 shadow-sm">
+            <span className="text-yellow-500 text-sm">⭐</span>
+            <span className="font-bold text-sm text-gray-800">{doctor.rating}</span>
           </div>
-          <button className="bg-rose-500/90 backdrop-blur text-white px-2 py-1 rounded-full flex items-center gap-1 shadow-sm hover:bg-rose-600 transition-colors">
-            <span className="text-xs">❤️</span>
-            <span className="font-bold text-xs">{doctor.thanksCount}</span>
-          </button>
         </div>
+
+        {/* شارة المجاني (أعلى اليسار - أنيقة وواضحة) */}
+        {doctor.isFree && (
+          <div className="absolute top-4 left-4">
+            <span className="bg-emerald-500 text-white text-xs font-bold px-4 py-1.5 rounded-2xl shadow-md">
+              خدمة مجانية
+            </span>
+          </div>
+        )}
       </div>
 
-      {/* قسم المعلومات (مضغوط ومرتب) */}
-      <div className="p-4 md:p-5 flex flex-col flex-grow bg-white/60">
-        <div className="flex gap-3 items-start mb-3">
-          <div className="w-12 h-12 bg-white rounded-xl shadow-md p-2 flex-shrink-0 border border-gray-100">
+      {/* 2. قسم المعلومات الرئيسي (ترتيب عمودي يمنع التداخل) */}
+      <div className="p-5 flex flex-col flex-grow relative">
+
+        {/* الشعار والاسم (تصميم متداخل مع الصورة يعطي طابعاً احترافياً) */}
+        <div className="flex gap-4 items-end mb-5 -mt-12 relative z-10">
+          <div className="w-16 h-16 bg-white rounded-2xl shadow-md p-2 flex-shrink-0 border border-gray-50">
             <img src={doctor.logo} alt="logo" className="w-full h-full object-contain" />
           </div>
-          <div>
-            <h3 className="text-lg font-bold text-gray-800">{doctor.name}</h3>
-            <p className="text-medical-primary text-xs font-bold">{doctor.specialty}</p>
-            <p className="text-gray-500 text-[11px] mt-0.5">{doctor.degree} | {doctor.university}</p>
+          <div className="pb-1">
+            <h3 className="text-xl font-bold text-gray-900 leading-tight">{doctor.name}</h3>
+            <p className="text-blue-600 text-sm font-bold mt-1">{doctor.specialty}</p>
           </div>
         </div>
 
-        {/* أوقات الدوام والمستشفى */}
-        <div className="flex flex-wrap gap-2 mb-3">
+        {/* خط فاصل ناعم */}
+        <hr className="border-gray-100 mb-4" />
+
+        {/* 3. قائمة التفاصيل (أيقونات ناعمة ونصوص واضحة لا تتداخل) */}
+        <div className="flex flex-col gap-3 mb-5 text-sm text-gray-600 font-medium">
           {doctor.workingHours && (
-            <span className="bg-blue-50 text-blue-700 text-[11px] px-2 py-1 rounded-md border border-blue-100 flex items-center gap-1">
-              ⏰ {doctor.workingHours}
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="text-xl">🕒</span>
+              <span>{doctor.workingHours} <span className="text-gray-400 font-normal mx-1">|</span> {doctor.workingDays}</span>
+            </div>
           )}
-          {doctor.workingDays && (
-            <span className="bg-gray-100 text-gray-700 text-[11px] px-2 py-1 rounded-md border border-gray-200 flex items-center gap-1">
-              📅 {doctor.workingDays}
-            </span>
-          )}
+
           {doctor.hospitalShift && (
-            <span className="bg-purple-50 text-purple-700 text-[11px] px-2 py-1 rounded-md border border-purple-100 flex items-center gap-1 w-full mt-1">
-              🏥 مستشفى: {doctor.hospitalShift}
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="text-xl">🏥</span>
+              <span>{doctor.hospitalShift}</span>
+            </div>
           )}
+
+          <div className="flex items-center gap-3">
+            <span className="text-xl">🎓</span>
+            <span className="truncate">{doctor.degree}</span>
+          </div>
         </div>
 
-        {/* النصيحة الطبية */}
-        <div className="bg-medical-bg p-3 rounded-xl mb-4 border border-blue-50/50">
-          <p className="text-gray-600 text-xs leading-relaxed">
-            <span className="text-medical-primary font-bold">💡 نصيحة: </span>
-            {doctor.tip}
-          </p>
+        {/* 4. عرض خاص (صندوق أنيق ومستقل لا يزاحم بقية العناصر) */}
+        {doctor.specialOffer && (
+          <div className="bg-amber-50/80 border border-amber-200 text-amber-800 p-3.5 rounded-2xl mb-5 flex items-start gap-3 text-sm">
+            <span className="text-amber-500 mt-0.5 text-lg">🎁</span>
+            <span className="font-bold leading-relaxed">{doctor.specialOffer}</span>
+          </div>
+        )}
+
+        {/* 5. أزرار التواصل (تصميم حديث بألوان مريحة) */}
+        <div className="mt-auto grid grid-cols-2 gap-3 pt-2">
+          <a href={`tel:${doctor.phone}`} className="bg-blue-50 hover:bg-blue-500 text-blue-600 hover:text-white py-3 rounded-2xl font-bold flex justify-center items-center gap-2 transition-all duration-300 text-sm">
+            <span className="text-lg">📞</span> اتصال
+          </a>
+          <a href={`https://wa.me/${doctor.whatsapp}`} target="_blank" rel="noreferrer" className="bg-green-50 hover:bg-green-500 text-green-600 hover:text-white py-3 rounded-2xl font-bold flex justify-center items-center gap-2 transition-all duration-300 text-sm">
+            <span className="text-lg">💬</span> واتساب
+          </a>
         </div>
 
-        <div className="mt-auto pt-3 border-t border-gray-100 flex gap-2">
-          <a href={`tel:${doctor.phone}`} className="flex-1 bg-medical-primary hover:bg-blue-600 text-white py-2 rounded-xl font-bold flex justify-center items-center gap-2 transition-colors text-sm shadow-md shadow-blue-200">
-            <span>📞</span> اتصال
-          </a>
-          <a href={`https://wa.me/${doctor.whatsapp}`} target="_blank" rel="noreferrer" className="flex-1 bg-medical-action hover:bg-green-600 text-white py-2 rounded-xl font-bold flex justify-center items-center gap-2 transition-colors text-sm shadow-md shadow-green-200">
-            <span>💬</span> واتساب
-          </a>
-        </div>
       </div>
     </div>
   );
@@ -98,38 +98,37 @@ const VIPDoctorCard = (doctor: any) => {
 // ----------------------------------------------------
 const App = () => {
   return (
-    <div className="min-h-screen bg-medical-bg font-sans text-right" dir="rtl">
+    <div className="min-h-screen bg-gray-50 font-sans text-right" dir="rtl">
 
-      {/* القسم العلوي (الترحاب) */}
-      <header className="bg-medical-primary text-white py-12 px-4 rounded-b-[3rem] shadow-xl relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-animated opacity-20"></div>
+      {/* القسم العلوي (الترحاب - تصميم هادئ) */}
+      <header className="bg-white border-b border-gray-100 py-12 px-4 shadow-sm relative">
         <div className="container mx-auto max-w-6xl relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-lg">دليل عيادات سامراء</h1>
-          <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900 tracking-tight">دليل عيادات سامراء</h1>
+          <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
             بوابتك للوصول إلى أفضل الأطباء، الصيدليات، والمختبرات في مدينتنا بسهولة وسرعة.
           </p>
         </div>
       </header>
 
       {/* المحتوى الرئيسي */}
-      <main className="container mx-auto max-w-7xl px-4 py-10">
+      <main className="container mx-auto max-w-7xl px-4 py-12">
 
-        {/* شريط البحث */}
-        <div className="flex justify-center mb-10">
-          <div className="glass-search p-2 rounded-2xl w-full max-w-2xl flex shadow-lg border border-white/50">
+        {/* شريط البحث (تصميم Apple-like) */}
+        <div className="flex justify-center mb-12">
+          <div className="bg-white p-2 rounded-2xl w-full max-w-2xl flex shadow-sm border border-gray-200 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
             <input
               type="text"
               placeholder="ابحث عن طبيب، تخصص، أو عيادة..."
               className="w-full bg-transparent outline-none px-4 text-gray-700 font-medium placeholder-gray-400"
             />
-            <button className="bg-medical-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-600 transition-colors shadow-md">
+            <button className="bg-gray-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-600 transition-colors">
               بحث
             </button>
           </div>
         </div>
 
-        {/* شبكة الأطباء (تجلب البيانات من الخزنة) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {/* شبكة الأطباء */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {doctorsList.map((doctor) => (
             <VIPDoctorCard key={doctor.id} {...doctor} />
           ))}
@@ -137,12 +136,12 @@ const App = () => {
 
       </main>
 
-      {/* التذييل (حقوق الملكية) */}
-      <footer className="bg-white py-8 text-center border-t border-gray-200 mt-10">
-        <p className="text-gray-500 font-bold mb-2">
+      {/* التذييل */}
+      <footer className="bg-white py-10 text-center border-t border-gray-100 mt-10">
+        <p className="text-gray-500 font-medium mb-2">
           صُنع بحب لخدمة أهل سامراء © {new Date().getFullYear()}
         </p>
-        <p className="text-sm text-medical-primary font-bold">
+        <p className="text-sm text-gray-900 font-bold">
           إدارة وتطوير: د. مؤمن عدي
         </p>
       </footer>
