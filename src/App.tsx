@@ -1,233 +1,235 @@
 import React, { useState, useEffect } from 'react';
 import { doctorsList } from './doctorsData';
 
-// ==========================================
-// 1. مكون تقليب الصور التلقائي (Auto Slider)
-// ==========================================
-const AutoSlider = ({ images }: { images: string[] }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+// قائمة الأقسام للفلترة
+const categories = [
+  { id: 'all', name: 'الكل' },
+  { id: 'dentist', name: 'طب أسنان' },
+  { id: 'doctor', name: 'أطباء وعيادات' },
+  { id: 'pharmacy', name: 'صيدليات' },
+  { id: 'lab', name: 'مختبرات' },
+  { id: 'center', name: 'مراكز طبية' },
+];
 
+// ==========================================
+// 1. مكون بطاقة الطبيب (VIP Doctor Card)
+// ==========================================
+const VIPDoctorCard = (doctor: any) => {
+  // استخراج أول حرفين من الاسم
+  const initials = doctor.name.replace('د. ', '').substring(0, 2);
+
+  // حالة تقليب الصور
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // حالة زر الشكر التفاعلي
+  const [thanksCount, setThanksCount] = useState(doctor.thanksCount || 0);
+  const [isThanked, setIsThanked] = useState(false);
+
+  // تأثير تقليب الصور التلقائي
   useEffect(() => {
-    if (!images || images.length <= 1) return;
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 3000); // تقليب كل 3 ثوانٍ
-    return () => clearInterval(interval);
-  }, [images]);
+    if (doctor.images && doctor.images.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prevIndex) =>
+          prevIndex === doctor.images.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 3000); // تتغير كل 3 ثواني
+      return () => clearInterval(interval);
+    }
+  }, [doctor.images]);
+
+  // دالة الضغط على زر الشكر
+  const handleThanksClick = () => {
+    if (!isThanked) {
+      setThanksCount(thanksCount + 1);
+      setIsThanked(true);
+    }
+  };
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-gray-100">
-      {images.map((img, index) => (
-        <img
-          key={index}
-          src={img}
-          alt={`slide-${index}`}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${index === currentIndex ? 'opacity-100' : 'opacity-0'
-            }`}
-        />
-      ))}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+    <div className="bg-white dark:bg-gray-800 rounded-[2rem] overflow-hidden shadow-lg shadow-blue-900/5 dark:shadow-black/20 hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 flex flex-col relative group">
+
+      {/* قسم الصورة مع التقليب التلقائي */}
+      <div className="relative h-48 w-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+        {doctor.images.map((img: string, index: number) => (
+          <img
+            key={index}
+            src={img}
+            alt={doctor.name}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
+            onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800"; }}
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+
+        {/* شارة المجاني */}
+        {doctor.isFree && (
+          <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+            ✨ خدمة مجانية
+          </div>
+        )}
+
+        {/* زر الشكر والتقييم فوق الصورة */}
+        <div className="absolute top-4 left-4 flex gap-2">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
+            <span className="text-yellow-500 text-xs">⭐</span>
+            <span className="font-bold text-xs text-gray-800 dark:text-white">{doctor.rating}</span>
+          </div>
+          <button
+            onClick={handleThanksClick}
+            className={`backdrop-blur px-3 py-1 rounded-full flex items-center gap-1 shadow-sm transition-colors ${isThanked ? 'bg-rose-500 text-white' : 'bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-white hover:bg-rose-100 dark:hover:bg-rose-900'}`}
+          >
+            <span className="text-xs">{isThanked ? '❤️' : '🤍'}</span>
+            <span className="font-bold text-xs">{thanksCount}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* قسم المعلومات */}
+      <div className="p-5 flex flex-col flex-grow relative bg-white dark:bg-gray-800 transition-colors">
+
+        {/* الحرف الأول والاسم */}
+        <div className="flex gap-4 items-center mb-4 -mt-12 relative z-10">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-2xl shadow-lg flex items-center justify-center text-2xl font-bold border-4 border-white dark:border-gray-800">
+            {initials}
+          </div>
+          <div className="pt-8">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">{doctor.name}</h3>
+            <p className="text-blue-600 dark:text-blue-400 text-sm font-bold">{doctor.specialty}</p>
+          </div>
+        </div>
+
+        {/* التفاصيل المختصرة */}
+        <div className="space-y-2 mb-4 text-sm text-gray-600 dark:text-gray-300">
+          {doctor.workingHours && <p className="flex items-center gap-2"><span className="text-lg">🕒</span> {doctor.workingHours} | {doctor.workingDays}</p>}
+          {doctor.hospitalShift && <p className="flex items-center gap-2"><span className="text-lg">🏥</span> {doctor.hospitalShift}</p>}
+          {doctor.landmark && <p className="flex items-center gap-2"><span className="text-lg">📍</span> {doctor.landmark}</p>}
+        </div>
+
+        {/* عرض خاص (إن وجد) */}
+        {doctor.specialOffer && (
+          <p className="bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs font-bold p-3 rounded-xl mb-4 text-center border border-yellow-100 dark:border-yellow-800">
+            🎁 {doctor.specialOffer}
+          </p>
+        )}
+
+        {/* أزرار التواصل */}
+        <div className="mt-auto grid grid-cols-2 gap-3 pt-4 border-t border-gray-100 dark:border-gray-700">
+          <a href={`tel:${doctor.phone}`} className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-500 dark:hover:bg-blue-600 text-blue-600 dark:text-blue-400 hover:text-white py-2.5 rounded-xl font-bold flex justify-center items-center gap-2 transition-colors text-sm">
+            📞 اتصال
+          </a>
+          <a href={`https://wa.me/${doctor.whatsapp}`} target="_blank" rel="noreferrer" className="bg-green-50 dark:bg-green-900/20 hover:bg-green-500 dark:hover:bg-green-600 text-green-600 dark:text-green-400 hover:text-white py-2.5 rounded-xl font-bold flex justify-center items-center gap-2 transition-colors text-sm">
+            💬 واتساب
+          </a>
+        </div>
+      </div>
     </div>
   );
 };
 
 // ==========================================
-// 2. الواجهة الرئيسية والتطبيق (App Component)
+// 2. الواجهة الرئيسية (App Component)
 // ==========================================
 const App = () => {
-  // --- إدارة الحالة (State) ---
-  const [selectedDoctor, setSelectedDoctor] = useState<any>(null);
+  const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeFilter, setActiveFilter] = useState('all');
 
-  // --- سحر "زر الرجوع" في الهاتف ---
+  // حالة الوضع الليلي
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // تفعيل الوضع الليلي على مستوى المتصفح
   useEffect(() => {
-    const handleBackButton = (e: PopStateEvent) => {
-      if (selectedDoctor) {
-        setSelectedDoctor(null); // العودة للقائمة بدل الخروج من الموقع
-      }
-    };
-    window.addEventListener('popstate', handleBackButton);
-    return () => window.removeEventListener('popstate', handleBackButton);
-  }, [selectedDoctor]);
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
-  const openDoctorProfile = (doctor: any) => {
-    setSelectedDoctor(doctor);
-    window.history.pushState({ profileOpen: true }, '', '#profile');
-    window.scrollTo(0, 0); // رفع الشاشة للأعلى
-  };
-
-  const closeProfile = () => {
-    setSelectedDoctor(null);
-    window.history.back(); // تحديث سجل المتصفح
-  };
-
-  // --- محرك الفلترة والبحث ---
-  const filteredDoctors = doctorsList.filter((doc) => {
-    const matchesSearch = doc.name.includes(searchQuery) || doc.specialty.includes(searchQuery);
-    const matchesFilter =
-      activeFilter === 'all' ? true :
-        activeFilter === 'free' ? doc.isFree :
-          doc.category === activeFilter;
-    return matchesSearch && matchesFilter;
+  // فلترة الأطباء حسب القسم والبحث
+  const filteredDoctors = doctorsList.filter(doctor => {
+    const matchesCategory = activeCategory === 'all' || doctor.category === activeCategory;
+    const matchesSearch = doctor.name.includes(searchQuery) ||
+      doctor.specialty.includes(searchQuery) ||
+      (doctor.landmark && doctor.landmark.includes(searchQuery));
+    return matchesCategory && matchesSearch;
   });
 
-  // ==========================================
-  // شاشة 1: تفاصيل الطبيب (The Detail/Profile View)
-  // ==========================================
-  if (selectedDoctor) {
-    const doc = selectedDoctor;
-    return (
-      <div className="min-h-screen bg-gray-50 font-sans text-right pb-20" dir="rtl">
-        {/* زر العودة العلوي */}
-        <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md p-4 shadow-sm flex items-center gap-3">
-          <button onClick={closeProfile} className="bg-gray-100 hover:bg-gray-200 p-2 rounded-full transition">
-            <span className="text-xl">➡️</span>
-          </button>
-          <h2 className="font-bold text-lg text-gray-800">الملف الشخصي</h2>
-        </div>
-
-        {/* غلاف الصور (سلايدر) */}
-        <div className="h-64 md:h-80 w-full relative shadow-inner">
-          <AutoSlider images={doc.images} />
-          {/* الشعار المتداخل */}
-          <div className="absolute -bottom-10 right-6 w-24 h-24 bg-white p-2 rounded-2xl shadow-xl border-2 border-white">
-            <img src={doc.logo} alt="logo" className="w-full h-full object-contain" />
-          </div>
-        </div>
-
-        {/* البيانات الأساسية */}
-        <div className="container mx-auto max-w-3xl px-6 pt-14 pb-6">
-          <h1 className="text-3xl font-extrabold text-gray-900 mb-1">{doc.name}</h1>
-          <p className="text-medical-primary font-bold text-lg mb-4">{doc.specialty}</p>
-
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-6 space-y-4">
-            {/* الحقول الثابتة (7 حقول) */}
-            <div className="flex gap-3 items-center text-gray-700">
-              <span className="text-xl">🎓</span> <p><span className="font-bold">الشهادة:</span> {doc.degree}</p>
-            </div>
-            <div className="flex gap-3 items-center text-gray-700">
-              <span className="text-xl">🏛️</span> <p><span className="font-bold">الجامعة:</span> {doc.university}</p>
-            </div>
-            <div className="flex gap-3 items-center text-gray-700">
-              <span className="text-xl">📍</span> <p><span className="font-bold">العنوان:</span> {doc.landmark}</p>
-            </div>
-            <div className="flex gap-3 items-center text-gray-700">
-              <span className="text-xl">⭐</span> <p><span className="font-bold">التقييم:</span> {doc.rating} ({doc.thanksCount} شكر)</p>
-            </div>
-            <div className="flex gap-3 items-center text-gray-700">
-              <span className="text-xl">📅</span> <p><span className="font-bold">الأيام:</span> {doc.workingDays}</p>
-            </div>
-            <div className="flex gap-3 items-center text-gray-700">
-              <span className="text-xl">⏰</span> <p><span className="font-bold">الوقت:</span> {doc.workingHours}</p>
-            </div>
-            {doc.hospitalShift && (
-              <div className="flex gap-3 items-center text-gray-700">
-                <span className="text-xl">🏥</span> <p><span className="font-bold">المستشفى:</span> {doc.hospitalShift}</p>
-              </div>
-            )}
-          </div>
-
-          {/* الحقول الاختيارية (تظهر فقط إن وجدت) */}
-          {doc.specialOffer && (
-            <div className="bg-gradient-to-r from-amber-100 to-amber-50 p-5 rounded-2xl border border-amber-200 mb-6 shadow-sm">
-              <h3 className="font-bold text-amber-800 flex gap-2 items-center mb-2">
-                <span>🎁</span> عرض خاص
-              </h3>
-              <p className="text-amber-700 text-sm">{doc.specialOffer}</p>
-            </div>
-          )}
-
-          {doc.tip && (
-            <div className="bg-blue-50 p-5 rounded-2xl border border-blue-100 mb-6">
-              <h3 className="font-bold text-blue-800 flex gap-2 items-center mb-2">
-                <span>💡</span> نصيحة طبية
-              </h3>
-              <p className="text-blue-700 text-sm leading-relaxed">{doc.tip}</p>
-            </div>
-          )}
-
-          {/* أزرار الاتصال الثابتة في الأسفل */}
-          <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md p-4 border-t border-gray-200 flex gap-4 z-40">
-            <a href={`tel:${doc.phone}`} className="flex-1 bg-medical-primary text-white py-3 rounded-xl font-bold text-center shadow-lg shadow-blue-200">
-              📞 اتصال
-            </a>
-            <a href={`https://wa.me/${doc.whatsapp}`} target="_blank" rel="noreferrer" className="flex-1 bg-green-500 text-white py-3 rounded-xl font-bold text-center shadow-lg shadow-green-200">
-              💬 واتساب
-            </a>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // ==========================================
-  // شاشة 2: الواجهة الرئيسية (The Master/List View)
-  // ==========================================
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-right pb-10" dir="rtl">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans text-right transition-colors duration-300" dir="rtl">
 
-      {/* الترحاب والبحث */}
-      <header className="bg-white pt-10 pb-6 px-4 shadow-sm rounded-b-3xl mb-6">
-        <div className="container mx-auto max-w-5xl">
-          <h1 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">دليل سامراء</h1>
+      {/* الشريط العلوي مع زر الوضع الليلي */}
+      <header className="bg-white dark:bg-gray-800 py-8 px-4 shadow-sm text-center relative transition-colors duration-300">
+        {/* زر التبديل بين الليلي والنهاري */}
+        <button
+          onClick={() => setIsDarkMode(!isDarkMode)}
+          className="absolute top-6 left-4 md:left-8 bg-gray-100 dark:bg-gray-700 p-3 rounded-full text-xl shadow-sm hover:scale-110 transition-transform"
+          title="تغيير المظهر"
+        >
+          {isDarkMode ? '☀️' : '🌙'}
+        </button>
 
-          {/* شريط البحث */}
-          <div className="bg-gray-100 p-2 rounded-2xl flex items-center mb-4">
-            <span className="px-3 text-gray-400">🔍</span>
-            <input
-              type="text"
-              placeholder="ابحث عن اسم، تخصص..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-transparent outline-none text-gray-700"
-            />
-          </div>
-
-          {/* أزرار الفلترة الأنيقة */}
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-            <button onClick={() => setActiveFilter('all')} className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition ${activeFilter === 'all' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600'}`}>الكل</button>
-            <button onClick={() => setActiveFilter('free')} className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition flex gap-1 ${activeFilter === 'free' ? 'bg-green-500 text-white' : 'bg-green-50 text-green-700'}`}>✨ مجاني</button>
-            <button onClick={() => setActiveFilter('dentist')} className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition ${activeFilter === 'dentist' ? 'bg-blue-500 text-white' : 'bg-blue-50 text-blue-700'}`}>🦷 أسنان</button>
-            <button onClick={() => setActiveFilter('doctor')} className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition ${activeFilter === 'doctor' ? 'bg-rose-500 text-white' : 'bg-rose-50 text-rose-700'}`}>🩺 أطباء</button>
-          </div>
-        </div>
+        <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-2 mt-4 md:mt-0">دليل عيادات سامراء</h1>
+        <p className="text-gray-500 dark:text-gray-400">المنصة الطبية الأولى في مدينتنا</p>
       </header>
 
-      {/* شبكة البطاقات (2 في الهاتف، 4 في الحاسوب) */}
-      <main className="container mx-auto px-4 max-w-6xl">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
-          {filteredDoctors.map((doctor) => (
-            <div
-              key={doctor.id}
-              onClick={() => openDoctorProfile(doctor)}
-              className="bg-white/70 backdrop-blur-lg rounded-2xl overflow-hidden shadow-sm border border-white hover:shadow-xl transition cursor-pointer flex flex-col relative"
-            >
-              {/* الصور مع السلايدر */}
-              <div className="h-32 md:h-48 w-full relative">
-                <AutoSlider images={doctor.images} />
-                {doctor.isFree && (
-                  <span className="absolute top-2 right-2 bg-green-500 text-white text-[10px] px-2 py-1 rounded-full z-10 font-bold shadow">
-                    مجاني
-                  </span>
-                )}
-              </div>
+      <main className="container mx-auto max-w-6xl px-4 py-8">
 
-              {/* معلومات الخطف السريعة */}
-              <div className="p-3 flex flex-col flex-grow text-center items-center">
-                <div className="w-10 h-10 bg-white rounded-full shadow-md p-1 -mt-8 relative z-10 mb-2">
-                  <img src={doctor.logo} alt="logo" className="w-full h-full object-contain rounded-full" />
-                </div>
-                <h3 className="text-sm md:text-lg font-bold text-gray-900 truncate w-full">{doctor.name}</h3>
-                <p className="text-[10px] md:text-sm text-blue-600 font-bold mt-1 truncate w-full">{doctor.specialty}</p>
-                <div className="mt-2 text-[10px] text-gray-500 flex items-center gap-1 justify-center">
-                  <span>⭐ {doctor.rating}</span>
-                </div>
-              </div>
-            </div>
+        {/* شريط البحث الذكي */}
+        <div className="flex justify-center mb-8">
+          <div className="w-full max-w-2xl relative">
+            <input
+              type="text"
+              placeholder="ابحث عن طبيب، تخصص، أو منطقة (مثال: حي المعلمين)..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white px-5 py-4 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+            />
+            <span className="absolute left-4 top-4 text-gray-400 text-xl">🔍</span>
+          </div>
+        </div>
+
+        {/* أزرار الفلترة (الأقسام) */}
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
+          {categories.map(cat => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`px-5 py-2.5 rounded-full font-bold text-sm transition-all shadow-sm ${activeCategory === cat.id
+                  ? 'bg-blue-600 text-white shadow-blue-200 dark:shadow-blue-900/50'
+                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-100 dark:border-gray-700'
+                }`}
+            >
+              {cat.name}
+            </button>
           ))}
         </div>
+
+        {/* شبكة البطاقات */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredDoctors.map((doctor) => (
+            <VIPDoctorCard key={doctor.id} {...doctor} />
+          ))}
+        </div>
+
+        {/* رسالة عند عدم وجود نتائج */}
+        {filteredDoctors.length === 0 && (
+          <div className="text-center py-20">
+            <p className="text-gray-400 dark:text-gray-500 font-bold text-xl mb-2">لا توجد نتائج مطابقة لبحثك.</p>
+            <p className="text-gray-400 dark:text-gray-500 text-sm">حاول البحث بكلمة أخرى أو تغيير القسم.</p>
+          </div>
+        )}
+
       </main>
+
+      {/* التذييل */}
+      <footer className="bg-white dark:bg-gray-800 py-8 text-center border-t border-gray-100 dark:border-gray-700 mt-10 transition-colors duration-300">
+        <p className="text-gray-500 dark:text-gray-400 font-medium mb-2">
+          صُنع بحب لخدمة أهل سامراء © {new Date().getFullYear()}
+        </p>
+        <p className="text-sm text-gray-900 dark:text-white font-bold">
+          إدارة وتطوير: د. مؤمن عدي
+        </p>
+      </footer>
     </div>
   );
 };
