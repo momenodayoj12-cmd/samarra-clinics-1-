@@ -14,7 +14,7 @@ const categories = [
 // ==========================================
 // 1. مكون بطاقة الطبيب (VIP Doctor Card)
 // ==========================================
-const VIPDoctorCard = (doctor: any) => {
+const  = (doctor: any) => {
   // استخراج أول حرفين من الاسم
   const initials = doctor.name.replace('د. ', '').substring(0, 2);
 
@@ -195,8 +195,8 @@ const App = () => {
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
               className={`px-5 py-2.5 rounded-full font-bold text-sm transition-all shadow-sm ${activeCategory === cat.id
-                  ? 'bg-blue-600 text-white shadow-blue-200 dark:shadow-blue-900/50'
-                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-100 dark:border-gray-700'
+                ? 'bg-blue-600 text-white shadow-blue-200 dark:shadow-blue-900/50'
+                : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-100 dark:border-gray-700'
                 }`}
             >
               {cat.name}
