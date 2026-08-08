@@ -1,7 +1,7 @@
 import { PricingPackage, BeforeAfterDemo, ValuePillar, FAQItem } from '../types';
 
 export const CHISEL_INFO = {
-    name: "شَزِل | Chisel",
+    name: "إزميل | Chisel",
     tagline: "وكالة نمو عيادات الأسنان في سامراء 🦷📈",
     shortDesc: "شغلك بالعيادة يبين بالواقع، وإحنا نخليه يبين على الشاشة.",
     mainPitch: "إذا الطبيب شاطر بالعيادة، لازم محتواه همين يبين شغله بنفس المستوى. إحنا نشتغل على تحويل شغل الطبيب داخل العيادة إلى محتوى احترافي يساعده على زيادة الثقة، زيادة المتابعين، وجذب مراجعين جدد.",

@@ -23,10 +23,10 @@ export default function App() {
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-emerald-600/20 text-2xl">
-              ش
+              إ
             </div>
             <div className="text-right">
-              <h1 className="text-2xl font-black leading-none tracking-tight">شَزِل</h1>
+              <h1 className="text-2xl font-black leading-none tracking-tight">إزميل</h1>
               <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-widest">Medical Production</span>
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function App() {
           <div className="relative animate-in fade-in slide-in-from-left-8 duration-1000 delay-200 hidden md:block">
             <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/20 to-transparent rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
             <img
-              src="https://images.unsplash.com/photo-1585644026365-bcf78cc68379?auto=format&fit=crop&q=80&w=1200"
+              src="https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=1200"
               alt="تصوير سينمائي للعيادات"
               className="rounded-[3rem] shadow-2xl object-cover h-[500px] w-full border-4 border-white dark:border-slate-800"
             />
@@ -111,7 +111,7 @@ export default function App() {
       <section className="py-20 px-6 bg-white/50 dark:bg-slate-900/20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black mb-4">ليش شَزِل تختلف؟</h2>
+            <h2 className="text-3xl md:text-4xl font-black mb-4">ليش وكالة إزميل تختلف؟</h2>
             <p className="text-slate-500 dark:text-slate-400 font-bold">إحنا ما نبيع "مونتاج وتصوير"، إحنا نصمم لغة بصرية تحترم مهنتك.</p>
           </div>
 
@@ -192,10 +192,10 @@ export default function App() {
 
       {/* FOOTER */}
       <footer className="py-12 text-center border-t border-slate-200 dark:border-slate-800">
-        <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-black shadow-lg mx-auto text-3xl mb-6">ش</div>
+        <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-black shadow-lg mx-auto text-3xl mb-6">إ</div>
         <h3 className="text-2xl font-black mb-2">{CHISEL_INFO.name}</h3>
         <p className="text-slate-500 font-bold mb-8">{CHISEL_INFO.tagline}</p>
-        <p className="text-sm text-slate-400 font-bold">© {new Date().getFullYear()} جميع الحقوق محفوظة لوكالة شَزِل للإنتاج الطبي.</p>
+        <p className="text-sm text-slate-400 font-bold">© {new Date().getFullYear()} جميع الحقوق محفوظة لوكالة إزميل للإنتاج الطبي.</p>
       </footer>
 
       {/* Floating WhatsApp Button */}

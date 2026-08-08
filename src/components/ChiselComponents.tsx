@@ -101,7 +101,7 @@ export const BeforeAfterCard: React.FC<{ demo: BeforeAfterDemo }> = ({ demo }) =
                 <div className="p-8 border-b md:border-b-0 md:border-l border-slate-100 dark:border-slate-800 bg-red-50/30 dark:bg-red-950/10">
                     <div className="mb-6">
                         <img
-                            src="https://images.unsplash.com/photo-1611174751910-639a0614eb58?auto=format&fit=crop&q=80&w=800"
+                            src="https://images.pexels.com/photos/5206012/pexels-photo-5206012.jpeg?auto=compress&cs=tinysrgb&w=800"
                             alt="تصوير هاتف عادي"
                             className="w-full h-48 object-cover rounded-2xl shadow-sm grayscale opacity-80"
                         />
@@ -126,7 +126,7 @@ export const BeforeAfterCard: React.FC<{ demo: BeforeAfterDemo }> = ({ demo }) =
                 <div className="p-8 bg-emerald-50/30 dark:bg-emerald-950/10 relative overflow-hidden">
                     <div className="mb-6 relative z-10">
                         <img
-                            src="https://images.unsplash.com/photo-1551071285-d6cf4499d300?auto=format&fit=crop&q=80&w=800"
+                            src="https://images.pexels.com/photos/3861456/pexels-photo-3861456.jpeg?auto=compress&cs=tinysrgb&w=800"
                             alt="تصوير سينمائي احترافي"
                             className="w-full h-48 object-cover rounded-2xl shadow-lg shadow-emerald-500/20 border-2 border-emerald-500/30"
                         />
@@ -136,7 +136,7 @@ export const BeforeAfterCard: React.FC<{ demo: BeforeAfterDemo }> = ({ demo }) =
                         <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center shadow-inner">
                             <CheckCircle2 size={24} className="text-emerald-500" />
                         </div>
-                        <h4 className="text-xl font-black text-slate-900 dark:text-white">بعد معالجة (شَزِل)</h4>
+                        <h4 className="text-xl font-black text-slate-900 dark:text-white">بعد معالجة (إزميل)</h4>
                     </div>
                     <ul className="space-y-4 relative z-10">
                         {demo.chiselFixes.map((fix, i) => (
@@ -172,7 +172,7 @@ export const HookComparison: React.FC<{ strategy: { title: string, bad: string, 
                 <div className="flex items-start gap-3 p-4 bg-emerald-50/80 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-900/30 shadow-inner">
                     <Check size={18} className="text-emerald-600 mt-0.5 shrink-0" />
                     <p className="text-sm font-bold text-slate-900 dark:text-emerald-50 leading-relaxed">
-                        <span className="text-emerald-600 font-black block mb-1">أسلوب شَزِل:</span>
+                        <span className="text-emerald-600 font-black block mb-1">أسلوب إزميل:</span>
                         {strategy.good}
                     </p>
                 </div>
