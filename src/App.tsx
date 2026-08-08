@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Moon, Sun, MessageCircle, ChevronDown, PlayCircle } from 'lucide-react';
+import { Moon, Sun, MessageCircle, ChevronDown, PlayCircle, ArrowLeft } from 'lucide-react';
 import { CHISEL_INFO, PRICING_PACKAGES, VALUE_PILLARS, BEFORE_AFTER_DEMOS, HOOK_STRATEGIES, FAQS } from './data/chiselData';
 import { PricingCard, ValuePillarCard, BeforeAfterCard, HookComparison } from './components/ChiselComponents';
 
@@ -49,36 +49,61 @@ export default function App() {
         </div>
       </header>
 
-      {/* HERO SECTION */}
-      <section className="pt-40 pb-20 px-6 relative">
+      {/* HERO SECTION WITH IMAGE */}
+      <section className="pt-32 pb-20 px-6 relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-500/10 dark:bg-emerald-500/5 blur-[100px] rounded-full -z-10 pointer-events-none"></div>
 
-        <div className="max-w-4xl mx-auto text-center space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-          <div className="inline-block px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 font-black text-sm rounded-full mb-4 border border-emerald-200 dark:border-emerald-800">
-            {CHISEL_INFO.tagline}
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+          {/* Hero Text */}
+          <div className="text-right space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            <div className="inline-block px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 font-black text-sm rounded-full mb-2 border border-emerald-200 dark:border-emerald-800">
+              {CHISEL_INFO.tagline}
+            </div>
+
+            <h2 className="text-5xl md:text-6xl font-black leading-tight md:leading-tight">
+              شغلك بالعيادة يبين بالواقع، <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-l from-emerald-600 to-teal-400">
+                وإحنا نخليه يبين على الشاشة.
+              </span>
+            </h2>
+
+            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-bold leading-relaxed">
+              {CHISEL_INFO.mainPitch}
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
+              <button onClick={handleWhatsApp} className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-lg transition-all shadow-xl shadow-emerald-600/20 flex items-center justify-center gap-2 hover:-translate-y-1">
+                <MessageCircle size={24} />
+                تواصل معنا الآن
+              </button>
+              <a href="#demo" className="w-full sm:w-auto px-8 py-4 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-emerald-500 dark:hover:border-emerald-500 text-slate-900 dark:text-white rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2">
+                <PlayCircle size={24} className="text-emerald-500" />
+                شاهد نموذج عملنا
+              </a>
+            </div>
           </div>
 
-          <h2 className="text-5xl md:text-7xl font-black leading-tight md:leading-tight">
-            شغلك بالعيادة يبين بالواقع، <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-l from-emerald-600 to-teal-400">
-              وإحنا نخليه يبين على الشاشة.
-            </span>
-          </h2>
-
-          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto leading-relaxed">
-            {CHISEL_INFO.mainPitch}
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
-            <button onClick={handleWhatsApp} className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-lg transition-all shadow-xl shadow-emerald-600/20 flex items-center justify-center gap-2 hover:-translate-y-1">
-              <MessageCircle size={24} />
-              تواصل معنا الآن
-            </button>
-            <a href="#demo" className="w-full sm:w-auto px-8 py-4 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-emerald-500 dark:hover:border-emerald-500 text-slate-900 dark:text-white rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2">
-              <PlayCircle size={24} className="text-emerald-500" />
-              شاهد نموذج عملنا
-            </a>
+          {/* Hero Image */}
+          <div className="relative animate-in fade-in slide-in-from-left-8 duration-1000 delay-200 hidden md:block">
+            <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/20 to-transparent rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
+            <img
+              src="https://images.unsplash.com/photo-1585644026365-bcf78cc68379?auto=format&fit=crop&q=80&w=1200"
+              alt="تصوير سينمائي للعيادات"
+              className="rounded-[3rem] shadow-2xl object-cover h-[500px] w-full border-4 border-white dark:border-slate-800"
+            />
+            {/* Floating Badge */}
+            <div className="absolute -bottom-6 -right-6 bg-white dark:bg-slate-900 p-4 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-800 flex items-center gap-4">
+              <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/50 rounded-full flex items-center justify-center">
+                <PlayCircle className="text-emerald-600" size={24} />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-slate-500">جودة الإنتاج</p>
+                <p className="font-black text-slate-900 dark:text-white">4K Cinematic</p>
+              </div>
+            </div>
           </div>
+
         </div>
       </section>
 
@@ -173,7 +198,7 @@ export default function App() {
         <p className="text-sm text-slate-400 font-bold">© {new Date().getFullYear()} جميع الحقوق محفوظة لوكالة شَزِل للإنتاج الطبي.</p>
       </footer>
 
-      {/* Floating WhatsApp Button for Mobile */}
+      {/* Floating WhatsApp Button */}
       <button
         onClick={handleWhatsApp}
         className="md:hidden fixed bottom-6 right-6 w-16 h-16 bg-[#25D366] text-white rounded-full shadow-2xl flex items-center justify-center z-50 hover:scale-110 active:scale-95 transition-transform"

@@ -97,7 +97,15 @@ export const BeforeAfterCard: React.FC<{ demo: BeforeAfterDemo }> = ({ demo }) =
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2">
+                {/* BEFORE SECTION */}
                 <div className="p-8 border-b md:border-b-0 md:border-l border-slate-100 dark:border-slate-800 bg-red-50/30 dark:bg-red-950/10">
+                    <div className="mb-6">
+                        <img
+                            src="https://images.unsplash.com/photo-1611174751910-639a0614eb58?auto=format&fit=crop&q=80&w=800"
+                            alt="تصوير هاتف عادي"
+                            className="w-full h-48 object-cover rounded-2xl shadow-sm grayscale opacity-80"
+                        />
+                    </div>
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/50 flex items-center justify-center shadow-inner">
                             <AlertCircle size={24} className="text-red-500" />
@@ -114,7 +122,15 @@ export const BeforeAfterCard: React.FC<{ demo: BeforeAfterDemo }> = ({ demo }) =
                     </ul>
                 </div>
 
+                {/* AFTER SECTION */}
                 <div className="p-8 bg-emerald-50/30 dark:bg-emerald-950/10 relative overflow-hidden">
+                    <div className="mb-6 relative z-10">
+                        <img
+                            src="https://images.unsplash.com/photo-1551071285-d6cf4499d300?auto=format&fit=crop&q=80&w=800"
+                            alt="تصوير سينمائي احترافي"
+                            className="w-full h-48 object-cover rounded-2xl shadow-lg shadow-emerald-500/20 border-2 border-emerald-500/30"
+                        />
+                    </div>
                     <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 blur-[50px] rounded-full pointer-events-none"></div>
                     <div className="flex items-center gap-3 mb-6 relative z-10">
                         <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center shadow-inner">
