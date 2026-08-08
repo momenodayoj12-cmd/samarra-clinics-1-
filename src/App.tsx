@@ -1,210 +1,168 @@
 import React, { useState, useEffect } from 'react';
-import { Moon, Sun, MessageCircle, ChevronDown, PlayCircle, ArrowLeft } from 'lucide-react';
-import { CHISEL_INFO, PRICING_PACKAGES, VALUE_PILLARS, BEFORE_AFTER_DEMOS, HOOK_STRATEGIES, FAQS } from './data/chiselData';
-import { PricingCard, ValuePillarCard, BeforeAfterCard, HookComparison } from './components/ChiselComponents';
+import { Moon, Sun, MessageCircle, Camera, Scissors, Mic, Play, CheckCircle2 } from 'lucide-react';
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [darkMode, setDarkMode] = useState(true); // يبدأ ليلي لجمال الزجاج
+  const phoneNumber = "07704519695";
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode);
   }, [darkMode]);
 
   const handleWhatsApp = () => {
-    window.open(`https://wa.me/${CHISEL_INFO.whatsapp}`, '_blank');
+    window.open(`https://wa.me/964${phoneNumber.substring(1)}`, '_blank');
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500 overflow-hidden text-slate-900 dark:text-slate-100" dir="rtl">
+    <div className="min-h-screen relative overflow-hidden transition-colors duration-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-emerald-500/30" dir="rtl">
 
-      {/* HEADER */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 transition-colors">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-emerald-600/20 text-2xl">
-              إ
-            </div>
-            <div className="text-right">
-              <h1 className="text-2xl font-black leading-none tracking-tight">إزميل</h1>
-              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-widest">Medical Production</span>
-            </div>
-          </div>
+      {/* خلفيات مضيئة لتعزيز التأثير الزجاجي */}
+      <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-emerald-500/20 dark:bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-teal-500/20 dark:bg-teal-500/10 rounded-full blur-[150px] pointer-events-none"></div>
 
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="p-3 bg-slate-100 dark:bg-slate-800 rounded-full transition-all hover:scale-105 active:scale-95"
-            >
-              {darkMode ? <Sun size={20} className="text-amber-400" /> : <Moon size={20} className="text-slate-700" />}
-            </button>
-            <button
-              onClick={handleWhatsApp}
-              className="hidden md:flex items-center gap-2 bg-emerald-600 text-white px-6 py-2.5 rounded-full font-black text-sm hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-600/20"
-            >
-              <MessageCircle size={18} />
-              احجز استشارة لعيادتك
-            </button>
-          </div>
+      {/* الشريط العلوي الزجاجي */}
+      <nav className="fixed top-6 left-6 right-6 z-50 flex items-center justify-between px-6 py-4 rounded-3xl bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl border border-white/50 dark:border-slate-700/50 shadow-lg shadow-black/5">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-gradient-to-tr from-emerald-600 to-teal-400 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-lg">إ</div>
+          <span className="text-2xl font-black tracking-tight">إزميل</span>
         </div>
-      </header>
 
-      {/* HERO SECTION WITH IMAGE */}
-      <section className="pt-32 pb-20 px-6 relative">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-500/10 dark:bg-emerald-500/5 blur-[100px] rounded-full -z-10 pointer-events-none"></div>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="p-2.5 rounded-full bg-white/50 dark:bg-slate-800/50 hover:bg-white/80 dark:hover:bg-slate-700/80 backdrop-blur-md transition-all border border-white/50 dark:border-slate-600/50"
+          >
+            {darkMode ? <Sun size={20} className="text-amber-400" /> : <Moon size={20} className="text-slate-700" />}
+          </button>
 
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <button
+            onClick={handleWhatsApp}
+            className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-500 text-white px-6 py-2.5 rounded-full font-bold transition-all hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/25"
+          >
+            <MessageCircle size={18} />
+            <span dir="ltr">{phoneNumber}</span>
+          </button>
+        </div>
+      </nav>
 
-          {/* Hero Text */}
-          <div className="text-right space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            <div className="inline-block px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 font-black text-sm rounded-full mb-2 border border-emerald-200 dark:border-emerald-800">
-              {CHISEL_INFO.tagline}
+      <main className="relative z-10 max-w-6xl mx-auto px-6 pt-40 pb-20">
+
+        {/* القسم الرئيسي (Hero) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-32">
+          <div className="space-y-8">
+            <div className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold text-sm backdrop-blur-md">
+              الإنتاج الطبي الاحترافي في سامراء
             </div>
 
-            <h2 className="text-5xl md:text-6xl font-black leading-tight md:leading-tight">
-              شغلك بالعيادة يبين بالواقع، <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-l from-emerald-600 to-teal-400">
-                وإحنا نخليه يبين على الشاشة.
-              </span>
-            </h2>
+            <h1 className="text-5xl md:text-7xl font-black leading-tight">
+              واقعك <span className="text-transparent bg-clip-text bg-gradient-to-l from-emerald-500 to-teal-300">مبهر</span>،<br />
+              ننقله للشاشة.
+            </h1>
 
-            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-bold leading-relaxed">
-              {CHISEL_INFO.mainPitch}
+            <p className="text-lg text-slate-600 dark:text-slate-300 font-bold max-w-md">
+              لا نستخدم الكلمات الكثيرة. عدساتنا ومونتاجنا يتحدثان عن مهارة عيادتك الطبية بصمت واحتراف.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
-              <button onClick={handleWhatsApp} className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-lg transition-all shadow-xl shadow-emerald-600/20 flex items-center justify-center gap-2 hover:-translate-y-1">
-                <MessageCircle size={24} />
-                تواصل معنا الآن
-              </button>
-              <a href="#demo" className="w-full sm:w-auto px-8 py-4 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-emerald-500 dark:hover:border-emerald-500 text-slate-900 dark:text-white rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2">
-                <PlayCircle size={24} className="text-emerald-500" />
-                شاهد نموذج عملنا
-              </a>
-            </div>
+            <button
+              onClick={handleWhatsApp}
+              className="flex items-center gap-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 py-4 rounded-2xl font-black text-lg transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-slate-900/20 dark:hover:shadow-white/20"
+            >
+              <Play size={24} className="text-emerald-500" />
+              ابدأ بإنتاج محتواك
+            </button>
           </div>
 
-          {/* Hero Image */}
-          <div className="relative animate-in fade-in slide-in-from-left-8 duration-1000 delay-200 hidden md:block">
-            <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/20 to-transparent rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-            <img
-              src="https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=1200"
-              alt="تصوير سينمائي للعيادات"
-              className="rounded-[3rem] shadow-2xl object-cover h-[500px] w-full border-4 border-white dark:border-slate-800"
-            />
-            {/* Floating Badge */}
-            <div className="absolute -bottom-6 -right-6 bg-white dark:bg-slate-900 p-4 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-800 flex items-center gap-4">
-              <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/50 rounded-full flex items-center justify-center">
-                <PlayCircle className="text-emerald-600" size={24} />
-              </div>
-              <div>
-                <p className="text-xs font-bold text-slate-500">جودة الإنتاج</p>
-                <p className="font-black text-slate-900 dark:text-white">4K Cinematic</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* VALUE PILLARS */}
-      <section className="py-20 px-6 bg-white/50 dark:bg-slate-900/20">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black mb-4">ليش وكالة إزميل تختلف؟</h2>
-            <p className="text-slate-500 dark:text-slate-400 font-bold">إحنا ما نبيع "مونتاج وتصوير"، إحنا نصمم لغة بصرية تحترم مهنتك.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {VALUE_PILLARS.map(pillar => (
-              <ValuePillarCard key={pillar.id} pillar={pillar} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* BEFORE/AFTER DEMO */}
-      <section id="demo" className="py-24 px-6">
-        <div className="max-w-5xl mx-auto">
-          <BeforeAfterCard demo={BEFORE_AFTER_DEMOS[0]} />
-        </div>
-      </section>
-
-      {/* HOOK STRATEGIES */}
-      <section className="py-20 px-6 bg-slate-100 dark:bg-slate-900">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black mb-4">كيف نصطاد المشاهد بدون ابتذال؟</h2>
-            <p className="text-slate-500 dark:text-slate-400 font-bold max-w-2xl mx-auto">لا نستخدم العناوين المزعجة (Clickbait). نستخدم استراتيجية "الفجوة المعرفية" التي تظهرك كخبير وتجبر المراجع على المتابعة.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {HOOK_STRATEGIES.map((strategy, idx) => (
-              <HookComparison key={idx} strategy={strategy} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PRICING PACKAGES */}
-      <section className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black mb-4">باقات مصممة لعيادتك</h2>
-            <p className="text-slate-500 dark:text-slate-400 font-bold">الدفع يتم بعد تسليم أول مقطع. الفكرة أن ترى الجودة بنفسك أولاً.</p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {PRICING_PACKAGES.map(pkg => (
-              <PricingCard key={pkg.id} pkg={pkg} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-20 px-6 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-black mb-10 text-center">أسئلة تتكرر علينا</h2>
-
-          <div className="space-y-4">
-            {FAQS.map((faq, index) => (
-              <div
-                key={index}
-                className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden transition-all duration-300"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="w-full px-6 py-5 flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                >
-                  <span className="font-black text-right">{faq.question}</span>
-                  <ChevronDown size={20} className={`transform transition-transform ${openFaq === index ? 'rotate-180 text-emerald-500' : 'text-slate-400'}`} />
-                </button>
-
-                <div className={`px-6 overflow-hidden transition-all duration-300 ${openFaq === index ? 'max-h-40 py-5 bg-white dark:bg-slate-900' : 'max-h-0 py-0'}`}>
-                  <p className="text-slate-600 dark:text-slate-400 font-bold leading-relaxed">{faq.answer}</p>
+          {/* صورة الكاميرا الزجاجية */}
+          <div className="relative group">
+            <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/30 to-teal-500/30 rounded-[3rem] transform rotate-3 transition-transform group-hover:rotate-6"></div>
+            <div className="relative p-2 bg-white/20 dark:bg-slate-800/20 backdrop-blur-2xl rounded-[3rem] border border-white/40 dark:border-slate-700/50 shadow-2xl">
+              <img
+                src="https://images.pexels.com/photos/3379934/pexels-photo-3379934.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="عدسة كاميرا احترافية"
+                className="rounded-[2.5rem] object-cover h-[500px] w-full"
+              />
+              <div className="absolute bottom-8 right-8 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl p-4 rounded-2xl border border-white/50 dark:border-slate-700 flex items-center gap-4 shadow-xl">
+                <div className="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center text-white">
+                  <Camera size={24} />
+                </div>
+                <div>
+                  <p className="font-black">جودة 4K</p>
+                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400">معدات سينمائية</p>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
-      </section>
 
-      {/* FOOTER */}
-      <footer className="py-12 text-center border-t border-slate-200 dark:border-slate-800">
-        <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-black shadow-lg mx-auto text-3xl mb-6">إ</div>
-        <h3 className="text-2xl font-black mb-2">{CHISEL_INFO.name}</h3>
-        <p className="text-slate-500 font-bold mb-8">{CHISEL_INFO.tagline}</p>
-        <p className="text-sm text-slate-400 font-bold">© {new Date().getFullYear()} جميع الحقوق محفوظة لوكالة إزميل للإنتاج الطبي.</p>
+        {/* كروت الخدمات الزجاجية المفرغة */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32">
+          {[
+            { icon: <Camera size={32} />, title: "تصوير سينمائي", desc: "نبرز أدق تفاصيل عملك الطبي بعدسات احترافية وإضاءة مدروسة." },
+            { icon: <Scissors size={32} />, title: "مونتاج حديث", desc: "إيقاع بصري يجذب المراجعين بدون ملل أو حشو زائد." },
+            { icon: <Mic size={32} />, title: "هندسة صوتية", desc: "صوت نقي وواضح يضيف طابع الثقة والهدوء لمقاطعك." }
+          ].map((item, i) => (
+            <div key={i} className="p-8 rounded-[2rem] bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl border border-white/60 dark:border-slate-700/50 shadow-lg hover:-translate-y-2 transition-all duration-300">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-6 border border-emerald-500/20">
+                {item.icon}
+              </div>
+              <h3 className="text-2xl font-black mb-3">{item.title}</h3>
+              <p className="font-bold text-slate-600 dark:text-slate-400">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* قسم قبل وبعد مبسط جداً */}
+        <div className="rounded-[3rem] bg-white/30 dark:bg-slate-900/30 backdrop-blur-2xl border border-white/50 dark:border-slate-700/50 p-8 md:p-12 shadow-2xl mb-20 relative overflow-hidden">
+          <div className="text-center mb-12 relative z-10">
+            <h2 className="text-4xl font-black mb-4">الفرق البصري</h2>
+            <p className="font-bold text-slate-600 dark:text-slate-400">تحويل العادي إلى استثنائي</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+            {/* قبل */}
+            <div className="relative group rounded-3xl overflow-hidden border-2 border-transparent">
+              <img src="https://images.pexels.com/photos/384555/pexels-photo-384555.jpeg?auto=compress&cs=tinysrgb&w=600" alt="تصوير عادي" className="w-full h-64 object-cover grayscale opacity-70 group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-slate-900/40 flex flex-col justify-end p-6">
+                <span className="text-white font-black text-xl">تصوير الهاتف (باهت)</span>
+              </div>
+            </div>
+
+            {/* بعد */}
+            <div className="relative group rounded-3xl overflow-hidden border-2 border-emerald-500/50 shadow-lg shadow-emerald-500/20">
+              <img src="https://images.pexels.com/photos/3762495/pexels-photo-3762495.jpeg?auto=compress&cs=tinysrgb&w=600" alt="تصوير إزميل" className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/80 to-transparent flex flex-col justify-end p-6">
+                <span className="text-white font-black text-xl flex items-center gap-2">
+                  <CheckCircle2 size={24} className="text-emerald-400" />
+                  لمسة وكالة إزميل
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+      {/* الفوتر المختصر */}
+      <footer className="relative z-10 border-t border-slate-200/50 dark:border-slate-800/50 bg-white/10 dark:bg-slate-900/10 backdrop-blur-md py-8 text-center">
+        <h3 className="text-xl font-black mb-2">وكالة إزميل</h3>
+        <p className="text-slate-500 dark:text-slate-400 font-bold text-sm mb-4">للإنتاج البصري والمونتاج الطبي - سامراء</p>
+        <button
+          onClick={handleWhatsApp}
+          className="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-6 py-2 rounded-full font-bold hover:bg-emerald-500/20 transition-colors"
+        >
+          <MessageCircle size={18} />
+          <span dir="ltr">{phoneNumber}</span>
+        </button>
       </footer>
 
-      {/* Floating WhatsApp Button */}
+      {/* زر الواتساب العائم للموبايل */}
       <button
         onClick={handleWhatsApp}
-        className="md:hidden fixed bottom-6 right-6 w-16 h-16 bg-[#25D366] text-white rounded-full shadow-2xl flex items-center justify-center z-50 hover:scale-110 active:scale-95 transition-transform"
+        className="sm:hidden fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full shadow-2xl shadow-emerald-500/40 flex items-center justify-center z-50 hover:scale-110 active:scale-95 transition-all"
       >
-        <MessageCircle size={32} />
+        <MessageCircle size={28} />
       </button>
+
     </div>
   );
 }
