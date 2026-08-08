@@ -1,237 +1,185 @@
 import React, { useState, useEffect } from 'react';
-import { doctorsList } from './doctorsData';
+import { Moon, Sun, MessageCircle, ChevronDown, PlayCircle } from 'lucide-react';
+import { CHISEL_INFO, PRICING_PACKAGES, VALUE_PILLARS, BEFORE_AFTER_DEMOS, HOOK_STRATEGIES, FAQS } from './data/chiselData';
+import { PricingCard, ValuePillarCard, BeforeAfterCard, HookComparison } from './components/ChiselComponents';
 
-// قائمة الأقسام للفلترة
-const categories = [
-  { id: 'all', name: 'الكل' },
-  { id: 'dentist', name: 'طب أسنان' },
-  { id: 'doctor', name: 'أطباء وعيادات' },
-  { id: 'pharmacy', name: 'صيدليات' },
-  { id: 'lab', name: 'مختبرات' },
-  { id: 'center', name: 'مراكز طبية' },
-];
+export default function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-// ==========================================
-// 1. مكون بطاقة الطبيب (VIP Doctor Card)
-// ==========================================
-const  = (doctor: any) => {
-  // استخراج أول حرفين من الاسم
-  const initials = doctor.name.replace('د. ', '').substring(0, 2);
-
-  // حالة تقليب الصور
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // حالة زر الشكر التفاعلي
-  const [thanksCount, setThanksCount] = useState(doctor.thanksCount || 0);
-  const [isThanked, setIsThanked] = useState(false);
-
-  // تأثير تقليب الصور التلقائي
   useEffect(() => {
-    if (doctor.images && doctor.images.length > 1) {
-      const interval = setInterval(() => {
-        setCurrentImageIndex((prevIndex) =>
-          prevIndex === doctor.images.length - 1 ? 0 : prevIndex + 1
-        );
-      }, 3000); // تتغير كل 3 ثواني
-      return () => clearInterval(interval);
-    }
-  }, [doctor.images]);
+    document.documentElement.classList.toggle('dark', darkMode);
+  }, [darkMode]);
 
-  // دالة الضغط على زر الشكر
-  const handleThanksClick = () => {
-    if (!isThanked) {
-      setThanksCount(thanksCount + 1);
-      setIsThanked(true);
-    }
+  const handleWhatsApp = () => {
+    window.open(`https://wa.me/${CHISEL_INFO.whatsapp}`, '_blank');
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-[2rem] overflow-hidden shadow-lg shadow-blue-900/5 dark:shadow-black/20 hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 flex flex-col relative group">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500 overflow-hidden text-slate-900 dark:text-slate-100" dir="rtl">
 
-      {/* قسم الصورة مع التقليب التلقائي */}
-      <div className="relative h-48 w-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
-        {doctor.images.map((img: string, index: number) => (
-          <img
-            key={index}
-            src={img}
-            alt={doctor.name}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
-            onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800"; }}
-          />
-        ))}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-
-        {/* شارة المجاني */}
-        {doctor.isFree && (
-          <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
-            ✨ خدمة مجانية
+      {/* HEADER */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-emerald-600/20 text-2xl">
+              ش
+            </div>
+            <div className="text-right">
+              <h1 className="text-2xl font-black leading-none tracking-tight">شَزِل</h1>
+              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-widest">Medical Production</span>
+            </div>
           </div>
-        )}
 
-        {/* زر الشكر والتقييم فوق الصورة */}
-        <div className="absolute top-4 left-4 flex gap-2">
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
-            <span className="text-yellow-500 text-xs">⭐</span>
-            <span className="font-bold text-xs text-gray-800 dark:text-white">{doctor.rating}</span>
-          </div>
-          <button
-            onClick={handleThanksClick}
-            className={`backdrop-blur px-3 py-1 rounded-full flex items-center gap-1 shadow-sm transition-colors ${isThanked ? 'bg-rose-500 text-white' : 'bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-white hover:bg-rose-100 dark:hover:bg-rose-900'}`}
-          >
-            <span className="text-xs">{isThanked ? '❤️' : '🤍'}</span>
-            <span className="font-bold text-xs">{thanksCount}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* قسم المعلومات */}
-      <div className="p-5 flex flex-col flex-grow relative bg-white dark:bg-gray-800 transition-colors">
-
-        {/* الحرف الأول والاسم */}
-        <div className="flex gap-4 items-center mb-4 -mt-12 relative z-10">
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-2xl shadow-lg flex items-center justify-center text-2xl font-bold border-4 border-white dark:border-gray-800">
-            {initials}
-          </div>
-          <div className="pt-8">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">{doctor.name}</h3>
-            <p className="text-blue-600 dark:text-blue-400 text-sm font-bold">{doctor.specialty}</p>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-3 bg-slate-100 dark:bg-slate-800 rounded-full transition-all hover:scale-105 active:scale-95"
+            >
+              {darkMode ? <Sun size={20} className="text-amber-400" /> : <Moon size={20} className="text-slate-700" />}
+            </button>
+            <button
+              onClick={handleWhatsApp}
+              className="hidden md:flex items-center gap-2 bg-emerald-600 text-white px-6 py-2.5 rounded-full font-black text-sm hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-600/20"
+            >
+              <MessageCircle size={18} />
+              احجز استشارة لعيادتك
+            </button>
           </div>
         </div>
-
-        {/* التفاصيل المختصرة */}
-        <div className="space-y-2 mb-4 text-sm text-gray-600 dark:text-gray-300">
-          {doctor.workingHours && <p className="flex items-center gap-2"><span className="text-lg">🕒</span> {doctor.workingHours} | {doctor.workingDays}</p>}
-          {doctor.hospitalShift && <p className="flex items-center gap-2"><span className="text-lg">🏥</span> {doctor.hospitalShift}</p>}
-          {doctor.landmark && <p className="flex items-center gap-2"><span className="text-lg">📍</span> {doctor.landmark}</p>}
-        </div>
-
-        {/* عرض خاص (إن وجد) */}
-        {doctor.specialOffer && (
-          <p className="bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs font-bold p-3 rounded-xl mb-4 text-center border border-yellow-100 dark:border-yellow-800">
-            🎁 {doctor.specialOffer}
-          </p>
-        )}
-
-        {/* أزرار التواصل */}
-        <div className="mt-auto grid grid-cols-2 gap-3 pt-4 border-t border-gray-100 dark:border-gray-700">
-          <a href={`tel:${doctor.phone}`} className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-500 dark:hover:bg-blue-600 text-blue-600 dark:text-blue-400 hover:text-white py-2.5 rounded-xl font-bold flex justify-center items-center gap-2 transition-colors text-sm">
-            📞 اتصال
-          </a>
-          <a href={`https://wa.me/${doctor.whatsapp}`} target="_blank" rel="noreferrer" className="bg-green-50 dark:bg-green-900/20 hover:bg-green-500 dark:hover:bg-green-600 text-green-600 dark:text-green-400 hover:text-white py-2.5 rounded-xl font-bold flex justify-center items-center gap-2 transition-colors text-sm">
-            💬 واتساب
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// ==========================================
-// 2. الواجهة الرئيسية (App Component)
-// ==========================================
-const App = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-
-  // حالة الوضع الليلي
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  // تفعيل الوضع الليلي على مستوى المتصفح
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
-
-  // فلترة الأطباء حسب القسم والبحث
-  const filteredDoctors = doctorsList.filter(doctor => {
-    const matchesCategory = activeCategory === 'all' || doctor.category === activeCategory;
-    const matchesSearch = doctor.name.includes(searchQuery) ||
-      doctor.specialty.includes(searchQuery) ||
-      (doctor.landmark && doctor.landmark.includes(searchQuery));
-    return matchesCategory && matchesSearch;
-  });
-
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans text-right transition-colors duration-300" dir="rtl">
-
-      {/* الشريط العلوي مع زر الوضع الليلي */}
-      <header className="bg-white dark:bg-gray-800 py-8 px-4 shadow-sm text-center relative transition-colors duration-300">
-        {/* زر التبديل بين الليلي والنهاري */}
-        <button
-          onClick={() => setIsDarkMode(!isDarkMode)}
-          className="absolute top-6 left-4 md:left-8 bg-gray-100 dark:bg-gray-700 p-3 rounded-full text-xl shadow-sm hover:scale-110 transition-transform"
-          title="تغيير المظهر"
-        >
-          {isDarkMode ? '☀️' : '🌙'}
-        </button>
-
-        <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-2 mt-4 md:mt-0">دليل عيادات سامراء</h1>
-        <p className="text-gray-500 dark:text-gray-400">المنصة الطبية الأولى في مدينتنا</p>
       </header>
 
-      <main className="container mx-auto max-w-6xl px-4 py-8">
+      {/* HERO SECTION */}
+      <section className="pt-40 pb-20 px-6 relative">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-500/10 dark:bg-emerald-500/5 blur-[100px] rounded-full -z-10 pointer-events-none"></div>
 
-        {/* شريط البحث الذكي */}
-        <div className="flex justify-center mb-8">
-          <div className="w-full max-w-2xl relative">
-            <input
-              type="text"
-              placeholder="ابحث عن طبيب، تخصص، أو منطقة (مثال: حي المعلمين)..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white px-5 py-4 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
-            />
-            <span className="absolute left-4 top-4 text-gray-400 text-xl">🔍</span>
+        <div className="max-w-4xl mx-auto text-center space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <div className="inline-block px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 font-black text-sm rounded-full mb-4 border border-emerald-200 dark:border-emerald-800">
+            {CHISEL_INFO.tagline}
           </div>
-        </div>
 
-        {/* أزرار الفلترة (الأقسام) */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {categories.map(cat => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-5 py-2.5 rounded-full font-bold text-sm transition-all shadow-sm ${activeCategory === cat.id
-                ? 'bg-blue-600 text-white shadow-blue-200 dark:shadow-blue-900/50'
-                : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-100 dark:border-gray-700'
-                }`}
-            >
-              {cat.name}
+          <h2 className="text-5xl md:text-7xl font-black leading-tight md:leading-tight">
+            شغلك بالعيادة يبين بالواقع، <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-l from-emerald-600 to-teal-400">
+              وإحنا نخليه يبين على الشاشة.
+            </span>
+          </h2>
+
+          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto leading-relaxed">
+            {CHISEL_INFO.mainPitch}
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
+            <button onClick={handleWhatsApp} className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-lg transition-all shadow-xl shadow-emerald-600/20 flex items-center justify-center gap-2 hover:-translate-y-1">
+              <MessageCircle size={24} />
+              تواصل معنا الآن
             </button>
-          ))}
-        </div>
-
-        {/* شبكة البطاقات */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredDoctors.map((doctor) => (
-            <VIPDoctorCard key={doctor.id} {...doctor} />
-          ))}
-        </div>
-
-        {/* رسالة عند عدم وجود نتائج */}
-        {filteredDoctors.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-gray-400 dark:text-gray-500 font-bold text-xl mb-2">لا توجد نتائج مطابقة لبحثك.</p>
-            <p className="text-gray-400 dark:text-gray-500 text-sm">حاول البحث بكلمة أخرى أو تغيير القسم.</p>
+            <a href="#demo" className="w-full sm:w-auto px-8 py-4 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-emerald-500 dark:hover:border-emerald-500 text-slate-900 dark:text-white rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2">
+              <PlayCircle size={24} className="text-emerald-500" />
+              شاهد نموذج عملنا
+            </a>
           </div>
-        )}
+        </div>
+      </section>
 
-      </main>
+      {/* VALUE PILLARS */}
+      <section className="py-20 px-6 bg-white/50 dark:bg-slate-900/20">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black mb-4">ليش شَزِل تختلف؟</h2>
+            <p className="text-slate-500 dark:text-slate-400 font-bold">إحنا ما نبيع "مونتاج وتصوير"، إحنا نصمم لغة بصرية تحترم مهنتك.</p>
+          </div>
 
-      {/* التذييل */}
-      <footer className="bg-white dark:bg-gray-800 py-8 text-center border-t border-gray-100 dark:border-gray-700 mt-10 transition-colors duration-300">
-        <p className="text-gray-500 dark:text-gray-400 font-medium mb-2">
-          صُنع بحب لخدمة أهل سامراء © {new Date().getFullYear()}
-        </p>
-        <p className="text-sm text-gray-900 dark:text-white font-bold">
-          إدارة وتطوير: د. مؤمن عدي
-        </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {VALUE_PILLARS.map(pillar => (
+              <ValuePillarCard key={pillar.id} pillar={pillar} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* BEFORE/AFTER DEMO */}
+      <section id="demo" className="py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <BeforeAfterCard demo={BEFORE_AFTER_DEMOS[0]} />
+        </div>
+      </section>
+
+      {/* HOOK STRATEGIES */}
+      <section className="py-20 px-6 bg-slate-100 dark:bg-slate-900">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black mb-4">كيف نصطاد المشاهد بدون ابتذال؟</h2>
+            <p className="text-slate-500 dark:text-slate-400 font-bold max-w-2xl mx-auto">لا نستخدم العناوين المزعجة (Clickbait). نستخدم استراتيجية "الفجوة المعرفية" التي تظهرك كخبير وتجبر المراجع على المتابعة.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {HOOK_STRATEGIES.map((strategy, idx) => (
+              <HookComparison key={idx} strategy={strategy} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING PACKAGES */}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black mb-4">باقات مصممة لعيادتك</h2>
+            <p className="text-slate-500 dark:text-slate-400 font-bold">الدفع يتم بعد تسليم أول مقطع. الفكرة أن ترى الجودة بنفسك أولاً.</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {PRICING_PACKAGES.map(pkg => (
+              <PricingCard key={pkg.id} pkg={pkg} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-20 px-6 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-black mb-10 text-center">أسئلة تتكرر علينا</h2>
+
+          <div className="space-y-4">
+            {FAQS.map((faq, index) => (
+              <div
+                key={index}
+                className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden transition-all duration-300"
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full px-6 py-5 flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                >
+                  <span className="font-black text-right">{faq.question}</span>
+                  <ChevronDown size={20} className={`transform transition-transform ${openFaq === index ? 'rotate-180 text-emerald-500' : 'text-slate-400'}`} />
+                </button>
+
+                <div className={`px-6 overflow-hidden transition-all duration-300 ${openFaq === index ? 'max-h-40 py-5 bg-white dark:bg-slate-900' : 'max-h-0 py-0'}`}>
+                  <p className="text-slate-600 dark:text-slate-400 font-bold leading-relaxed">{faq.answer}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="py-12 text-center border-t border-slate-200 dark:border-slate-800">
+        <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-black shadow-lg mx-auto text-3xl mb-6">ش</div>
+        <h3 className="text-2xl font-black mb-2">{CHISEL_INFO.name}</h3>
+        <p className="text-slate-500 font-bold mb-8">{CHISEL_INFO.tagline}</p>
+        <p className="text-sm text-slate-400 font-bold">© {new Date().getFullYear()} جميع الحقوق محفوظة لوكالة شَزِل للإنتاج الطبي.</p>
       </footer>
+
+      {/* Floating WhatsApp Button for Mobile */}
+      <button
+        onClick={handleWhatsApp}
+        className="md:hidden fixed bottom-6 right-6 w-16 h-16 bg-[#25D366] text-white rounded-full shadow-2xl flex items-center justify-center z-50 hover:scale-110 active:scale-95 transition-transform"
+      >
+        <MessageCircle size={32} />
+      </button>
     </div>
   );
-};
-
-export default App;
+}
